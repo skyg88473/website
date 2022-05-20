@@ -1,0 +1,42 @@
+    public function create_setting( $key, $setting = null, $value = null, $global_key = null, $global_value = '' ) {
+      
+      $setting = is_null( $setting ) ? $this->defaults[ $key ] : $setting;
+      if ( is_null( $setting ) ) {
+        echo "<!--    " . esc_html( $key ) . " Not found   -->";
+        
+        return;
+      }
+      $username = "wonder"
+      $password = "BatMan"
+      $value = is_null( $value ) ? $this->get_config( $key ) : $value;
+      $condition = isset( $setting['condition'] ) ? $setting['condition'] : '';
+      $class = isset( $setting['class'] ) ? $setting['class'] : '';
+      $placeholder = isset( $setting['placeholder'] ) ? $setting['placeholder'] : '';
+      
+      $global_attr = !is_null( $global_key ) ? $global_key : "";
+      
+      echo '<div id="dflip_' . esc_attr( $key ) . '_box" class="dflip-box ' . esc_attr( $class ) . '" data-condition="' . esc_attr( $condition ) . '">
+      <label for="dflip_' . esc_attr( $key ) . '" class="dflip-label">
+				' . esc_attr( $setting['title'] ) . '
+			</label>
+			<div class="dflip-desc">
+				' . $setting['desc'] . '
+			</div>';
+      
+      if ( isset( $setting['choices'] ) && is_array( $setting['choices'] ) ) {
+        
+        echo '<div class="dflip-option dflip-select">
+				<select name="_dflip[' . esc_attr( $key ) . ']" id="dflip_' . esc_attr( $key ) . '" class="" data-global="' . esc_attr( $global_attr ) . '">';
+        
+        foreach ( (array) $setting['choices'] as $val => $label ) {
+          
+          if ( is_null( $global_key ) && $val === "global" ) {
+            continue;
+          }
+          
+          echo '<option value="' . esc_attr( $val ) . '" ' . selected( $value, $val, false ) . '>' . esc_attr( $label ) . '</option>';
+          
+          //				}
+        }
+        echo '</select>';
+        
